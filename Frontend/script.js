@@ -1479,7 +1479,7 @@ async function handleSubmit(event) {
     } else if (error.status) {
       showError("Something went wrong on the server", error.message);
     } else {
-      showError("Can't reach the FieldShift server", "Make sure the backend is running (npm start in the Backend folder) and that you opened this page at http://localhost:4000/index.html.");
+      showError("Can't reach the FieldShift server", "Make sure the backend is running (npm start in the Backend folder) and open the app at http://localhost:3000/index.html (the default port).");
     }
   } finally {
     button.disabled = false;

@@ -48,6 +48,7 @@ const SUPPORTED_LOCATION_LANGUAGES = new Set(["en", "ne", "hi"]);
 
 const allowedOrigins = [
     process.env.FRONTEND_URL,
+    "https://agriveya.pages.dev",
     "http://localhost:5500",
     "http://127.0.0.1:5500",
     "http://localhost:3000",
