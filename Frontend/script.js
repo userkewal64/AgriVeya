@@ -1,5 +1,8 @@
 "use strict";
 
+const API_BASE_URL = "https://agriveya.onrender.com";
+const apiUrl = (path) => `${API_BASE_URL}${path}`;
+
 const LANGUAGE_TEXT = {
   ne: {
     "Home": "गृहपृष्ठ", "How it works": "कसरी काम गर्छ", "Planner": "योजना", "About the data": "तथ्याङ्कबारे", "Plan my season": "मेरो मौसम योजना बनाउनुहोस्",
@@ -75,8 +78,11 @@ const LANGUAGE_TEXT = {
     "Alternatives in the plan:": "योजनामा विकल्प:",
     "Location details unavailable": "स्थानको विवरण उपलब्ध छैन",
     "Finding location name…": "स्थानको नाम खोज्दै…",
+    "Your current location": "तपाईंको हालको स्थान",
     "Current location detected automatically.": "हालको स्थान स्वतः पत्ता लाग्यो।",
     "Detecting current location…": "हालको स्थान पत्ता लगाउँदै…",
+    "Loading climate data…": "जलवायु तथ्याङ्क ल्याउँदैछ…",
+    "Location access unavailable; using Itahari fallback.": "स्थान उपलब्ध नभएकाले इटहरी क्षेत्र प्रयोग हुँदैछ।",
     "Current location detected; address could not be resolved.": "हालको स्थान पत्ता लाग्यो; ठेगाना पत्ता लगाउन सकिएन।",
     "Location ready.": "स्थान तयार भयो।",
     "Choose a location suggestion to use your search.": "खोजी प्रयोग गर्न स्थान सुझाव छान्नुहोस्।",
@@ -199,7 +205,7 @@ const LANGUAGE_TEXT = {
     "The request took too long": "अनुरोधमा धेरै समय लाग्यो", "NASA climate data is unavailable": "NASA जलवायु तथ्याङ्क उपलब्ध छैन",
     "The server could not use these details": "सर्भरले यी विवरण प्रयोग गर्न सकेन",
     "Location not available": "स्थान उपलब्ध छैन", "Couldn't get your location": "तपाईंको स्थान पत्ता लागेन",
-    "Start the backend to load NASA POWER data. FieldShift never shows made-up climate values.": "NASA POWER तथ्याङ्कका लागि ब्याकएन्ड सुरु गर्नुहोस्। FieldShift ले बनावटी जलवायु तथ्याङ्क देखाउँदैन।",
+    "Climate data could not be loaded. Please try again later.": "जलवायु तथ्याङ्क ल्याउन सकिएन। कृपया पछि फेरि प्रयास गर्नुहोस्।",
     "days": "दिन", "climate data unavailable": "जलवायु तथ्याङ्क उपलब्ध छैन",
     "Allow location access in your browser, or enter the coordinates by hand.": "ब्राउजरमा स्थान अनुमति दिनुहोस् वा निर्देशाङ्क आफैँ भर्नुहोस्।",
     "This browser can't share your location. Enter the coordinates by hand.": "यो ब्राउजरले स्थान साझा गर्न सक्दैन। निर्देशाङ्क आफैँ भर्नुहोस्।",
@@ -290,8 +296,11 @@ const LANGUAGE_TEXT = {
     "Alternatives in the plan:": "योजना में विकल्प:",
     "Location details unavailable": "स्थान का विवरण उपलब्ध नहीं है",
     "Finding location name…": "स्थान का नाम खोजा जा रहा है…",
+    "Your current location": "आपका वर्तमान स्थान",
     "Current location detected automatically.": "वर्तमान स्थान अपने-आप पता चला।",
     "Detecting current location…": "वर्तमान स्थान का पता लगाया जा रहा है…",
+    "Loading climate data…": "जलवायु डेटा लोड हो रहा है…",
+    "Location access unavailable; using Itahari fallback.": "स्थान उपलब्ध नहीं होने के कारण इटहरी क्षेत्र उपयोग हो रहा है।",
     "Current location detected; address could not be resolved.": "वर्तमान स्थान पता चला; पता नहीं मिल सका।",
     "Location ready.": "स्थान तैयार है।",
     "Choose a location suggestion to use your search.": "खोज लागू करने के लिए स्थान का सुझाव चुनें।",
@@ -414,7 +423,7 @@ const LANGUAGE_TEXT = {
     "The request took too long": "अनुरोध में बहुत समय लगा", "NASA climate data is unavailable": "NASA जलवायु डेटा उपलब्ध नहीं है",
     "The server could not use these details": "सर्वर इन विवरणों का उपयोग नहीं कर सका",
     "Location not available": "स्थान उपलब्ध नहीं", "Couldn't get your location": "आपकी स्थिति नहीं मिल सकी",
-    "Start the backend to load NASA POWER data. FieldShift never shows made-up climate values.": "NASA POWER डेटा के लिए बैकएंड शुरू करें। FieldShift काल्पनिक जलवायु डेटा नहीं दिखाता।",
+    "Climate data could not be loaded. Please try again later.": "जलवायु डेटा लोड नहीं हो सका। कृपया बाद में पुनः प्रयास करें।",
     "days": "दिन", "climate data unavailable": "जलवायु डेटा उपलब्ध नहीं है",
     "Allow location access in your browser, or enter the coordinates by hand.": "ब्राउज़र में स्थान की अनुमति दें या निर्देशांक स्वयं भरें।",
     "This browser can't share your location. Enter the coordinates by hand.": "यह ब्राउज़र स्थान साझा नहीं कर सकता। निर्देशांक स्वयं भरें।",
@@ -434,6 +443,10 @@ const LANGUAGE_TEXT = {
 
 const originalText = new WeakMap();
 let snapshotData = null;
+let snapshotLocation = null;
+let snapshotLoading = false;
+let snapshotRequestId = 0;
+let manualSnapshotLocationSelected = false;
 let latestRecommendationData = null;
 let focusedRotationIndex = 0;
 let speechSessionId = 0;
@@ -470,6 +483,7 @@ function applyLanguage() {
   const menuToggle = $("menu-toggle");
   if (menuToggle) menuToggle.setAttribute("aria-label", language === "en" ? "Open menu" : language === "ne" ? "मेनु खोल्नुहोस्" : "मेनू खोलें");
   if (snapshotData) updateSnapshot(snapshotData, language);
+  else if (snapshotLoading) updateSnapshotLoading(language);
 }
 
 function translatedText(english, language = $("language-select") && $("language-select").value) {
@@ -481,11 +495,20 @@ function updateSnapshot(data, language) {
   const range = data.dateRange || {};
   const days = Array.isArray(data.dailyObservations) ? data.dailyObservations.length : null;
   const translate = (text) => translatedText(text, language);
-  $("snapPeriod").textContent = `${CONFIG.snapshot.label}, ${range.start || "?"} – ${range.end || "?"}`;
+  $("snapPeriod").textContent = `${snapshotLocation.label}, ${range.start || "?"} – ${range.end || "?"}`;
   $("snapTemp").textContent = `${fmt(summary.averageTemperatureC, 1)} °C`;
   $("snapHum").textContent = `${fmtInt(summary.averageRelativeHumidityPercent)}%`;
   $("snapDry").textContent = days ? `${summary.dryDays} / ${days} ${translate("days")}` : `${summary.dryDays ?? "n/a"} ${translate("days")}`;
   $("snapFoot").textContent = `${translate("Total rainfall")} ${fmtInt(summary.totalPrecipitationMm)} mm. ${translate("Historical observations, not a forecast.")}`;
+  if (snapshotLocation.fallback) {
+    $("snapFoot").textContent += ` ${translate("Location access unavailable; using Itahari fallback.")}`;
+  }
+}
+
+function updateSnapshotLoading(language = $("language-select").value) {
+  const label = snapshotLocation && snapshotLocation.label;
+  const status = translatedText(label ? "Loading climate data…" : "Detecting current location…", language);
+  $("snapPeriod").textContent = label ? `${label}, ${status}` : status;
 }
 
 /* ==========================================================
@@ -533,9 +556,17 @@ const CONFIG = {
   ],
   defaultPriorityLevel: "medium",
   requestTimeoutMs: 30000,
-  // Location used for the climate snapshot in the hero (real NASA POWER data via the backend)
-  snapshot: { latitude: 26.66, longitude: 87.27, label: "Itahari area" }
+  snapshotFallback: { latitude: 26.66, longitude: 87.27, label: "Itahari area", fallback: true }
 };
+
+function climateLocation(location, fallbackLabel) {
+  return {
+    latitude: Number(location.latitude),
+    longitude: Number(location.longitude),
+    label: location.displayName || location.name || fallbackLabel,
+    fallback: false
+  };
+}
 
 /* ---------- Small DOM helpers (text only, no innerHTML) ---------- */
 function el(tag, props, ...children) {
@@ -1424,7 +1455,7 @@ async function requestRecommendations(payload) {
   const controller = new AbortController();
   const timer = setTimeout(() => controller.abort(), CONFIG.requestTimeoutMs);
   try {
-    const response = await fetch("/api/recommendations", {
+    const response = await fetch(apiUrl("/api/recommendations"), {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(payload),
@@ -1479,7 +1510,7 @@ async function handleSubmit(event) {
     } else if (error.status) {
       showError("Something went wrong on the server", error.message);
     } else {
-      showError("Can't reach the FieldShift server", "Make sure the backend is running (npm start in the Backend folder) and open the app at http://localhost:3000/index.html (the default port).");
+      showError("Can't reach the FieldShift server", "Check your internet connection and confirm https://agriveya.onrender.com is available.");
     }
   } finally {
     button.disabled = false;
@@ -1506,7 +1537,7 @@ async function requestLocationDetails(coordinates) {
     longitude: String(coordinates.longitude),
     language: $("language-select").value
   });
-  const response = await fetch(`/api/locations/reverse?${parameters}`);
+  const response = await fetch(apiUrl(`/api/locations/reverse?${parameters}`));
   const data = await response.json();
   if (!response.ok) throw new Error(data.error || `Location lookup failed (${response.status}).`);
   return data.location || {};
@@ -1637,7 +1668,7 @@ async function loadRegionalCropOptions(location) {
     if (location && location.name) parameters.set("name", location.name);
     if (location && location.displayName) parameters.set("displayName", location.displayName);
 
-    const response = await fetch(`/api/crops/regional?${parameters}`, { signal });
+    const response = await fetch(apiUrl(`/api/crops/regional?${parameters}`), { signal });
     const data = await response.json();
     if (!response.ok) throw new Error(data.error || `Regional crop lookup failed (${response.status}).`);
     if (requestId !== regionalCropRequestId) return;
@@ -1685,7 +1716,7 @@ function setupLocationSearch() {
       parameters.set("latitude", String(currentLocationReference.latitude));
       parameters.set("longitude", String(currentLocationReference.longitude));
     }
-    return `/api/locations/search?${parameters}`;
+    return apiUrl(`/api/locations/search?${parameters}`);
   }
 
   function closeList() {
@@ -1714,10 +1745,12 @@ function setupLocationSearch() {
       source: "search"
     };
     locationSelectionPending = false;
+    manualSnapshotLocationSelected = true;
     input.value = location.displayName || location.name;
     setStatus("Location selected. Coordinates updated.");
     closeList();
     loadRegionalCropOptions(location);
+    loadSnapshot(climateLocation(selectedFarmLocation, translatedText("Your current location")));
   }
 
   function setActive(index) {
@@ -1844,24 +1877,30 @@ function setupLocationSearch() {
       input.value = translatedText("Finding location name…");
       setStatus("Finding location name…");
       clearTimeout(coordinateUpdateTimer);
-      coordinateUpdateTimer = setTimeout(() => {
-        resolveFarmLocation({
+      coordinateUpdateTimer = setTimeout(async () => {
+        const coordinates = {
           latitude: Number($("latitude").value),
           longitude: Number($("longitude").value)
-        }, "coordinates");
+        };
+        await resolveFarmLocation(coordinates, "coordinates");
+        if (
+          selectedFarmLocation &&
+          selectedFarmLocation.source === "coordinates" &&
+          selectedFarmLocation.latitude === coordinates.latitude &&
+          selectedFarmLocation.longitude === coordinates.longitude
+        ) {
+          manualSnapshotLocationSelected = true;
+          loadSnapshot(climateLocation(selectedFarmLocation, translatedText("Your current location")));
+        }
       }, 500);
     });
   });
 }
 
-async function handleLocate() {
-  const button = $("locate");
+function getCurrentPositionOnce() {
   if (!navigator.geolocation) {
-    $("location-status").textContent = "Location permission unavailable; search still works.";
-    applyLanguage();
-    return;
+    return Promise.reject(new Error("This browser does not support geolocation."));
   }
-  if (currentLocationTask) return currentLocationTask;
   if (!locationPermissionRequest) {
     locationPermissionRequest = new Promise((resolve, reject) => {
       navigator.geolocation.getCurrentPosition(resolve, reject, {
@@ -1871,13 +1910,25 @@ async function handleLocate() {
       });
     });
   }
+  return locationPermissionRequest;
+}
 
+async function handleLocate() {
+  const button = $("locate");
+  if (!navigator.geolocation) {
+    $("location-status").textContent = "Location permission unavailable; search still works.";
+    applyLanguage();
+    return false;
+  }
+  if (currentLocationTask) return currentLocationTask;
+
+  manualSnapshotLocationSelected = false;
   button.disabled = true;
   $("location-status").textContent = "Detecting current location…";
   applyLanguage();
   currentLocationTask = (async () => {
     try {
-      const position = await locationPermissionRequest;
+      const position = await getCurrentPositionOnce();
       currentLocationReference = {
         latitude: position.coords.latitude,
         longitude: position.coords.longitude
@@ -1888,10 +1939,17 @@ async function handleLocate() {
         latitude: Number($("latitude").value),
         longitude: Number($("longitude").value)
       }, "current");
+      if (manualSnapshotLocationSelected) return false;
+      loadSnapshot(climateLocation(
+        selectedFarmLocation || currentLocationReference,
+        translatedText("Your current location")
+      ));
+      return true;
     } catch (error) {
       console.warn("Could not detect the current location:", error.message);
       $("location-status").textContent = "Location permission unavailable; search still works.";
       applyLanguage();
+      return false;
     } finally {
       button.disabled = false;
       currentLocationTask = null;
@@ -1901,13 +1959,30 @@ async function handleLocate() {
 }
 
 /* ---------- Hero climate snapshot (real data from GET /api/climate) ---------- */
-async function loadSnapshot() {
-  const { latitude, longitude, label } = CONFIG.snapshot;
+async function loadSnapshot(location) {
+  const requestId = ++snapshotRequestId;
+  snapshotLocation = { ...location };
+  snapshotLoading = true;
+  snapshotData = null;
+  updateSnapshotLoading();
+  ["snapTemp", "snapHum", "snapDry"].forEach((id) => ($(id).textContent = "…"));
+  ["snapTempBar", "snapHumBar", "snapDryBar"].forEach((id) => ($(id).style.width = "0%"));
+  $("snapFoot").textContent = translatedText("Historical observations, not a forecast.");
+
   try {
-    const response = await fetch(`/api/climate?latitude=${latitude}&longitude=${longitude}`);
-    if (!response.ok) throw new Error("climate request failed");
+    const parameters = new URLSearchParams({
+      latitude: String(location.latitude),
+      longitude: String(location.longitude)
+    });
+    const response = await fetch(apiUrl(`/api/climate?${parameters}`));
     const data = await response.json();
+    if (!response.ok) {
+      throw new Error(data.error || `Climate request failed (${response.status}).`);
+    }
+    if (requestId !== snapshotRequestId) return;
+
     snapshotData = data;
+    snapshotLoading = false;
     updateSnapshot(data, $("language-select").value);
     const summary = data.summary || {};
     const observations = Array.isArray(data.dailyObservations) ? data.dailyObservations : [];
@@ -1924,11 +1999,49 @@ async function loadSnapshot() {
       });
     });
     applyLanguage();
-  } catch (_) {
-    $("snapPeriod").textContent = `${label}, ${translatedText("climate data unavailable")}`;
+  } catch (error) {
+    if (requestId !== snapshotRequestId) return;
+    console.error("Could not load climate snapshot:", error);
+    snapshotLoading = false;
+    $("snapPeriod").textContent = `${snapshotLocation.label}, ${translatedText("climate data unavailable")}`;
     ["snapTemp", "snapHum", "snapDry"].forEach((id) => ($(id).textContent = "n/a"));
-    $("snapFoot").textContent = "Start the backend to load NASA POWER data. FieldShift never shows made-up climate values.";
+    $("snapFoot").textContent = translatedText("Climate data could not be loaded. Please try again later.");
+    if (snapshotLocation.fallback) {
+      $("snapFoot").textContent += ` ${translatedText("Location access unavailable; using Itahari fallback.")}`;
+    }
     applyLanguage();
+  }
+}
+
+async function initializeSnapshotLocation() {
+  snapshotLoading = true;
+  snapshotLocation = null;
+  updateSnapshotLoading();
+
+  try {
+    const position = await getCurrentPositionOnce();
+    const coordinates = {
+      latitude: position.coords.latitude,
+      longitude: position.coords.longitude
+    };
+    currentLocationReference = coordinates;
+
+    let locationDetails = {};
+    try {
+      locationDetails = await requestLocationDetails(coordinates);
+    } catch (error) {
+      console.warn("Could not identify the current location:", error.message);
+    }
+    if (manualSnapshotLocationSelected) return;
+
+    await loadSnapshot(climateLocation(
+      { ...coordinates, ...locationDetails },
+      translatedText("Your current location")
+    ));
+  } catch (error) {
+    console.info("Using the fallback climate location:", error.message);
+    if (manualSnapshotLocationSelected) return;
+    await loadSnapshot(CONFIG.snapshotFallback);
   }
 }
 
@@ -1948,4 +2061,4 @@ resolveFarmLocation({
   latitude: Number($("latitude").value),
   longitude: Number($("longitude").value)
 }, "coordinates");
-loadSnapshot();
+initializeSnapshotLocation();
