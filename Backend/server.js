@@ -76,7 +76,7 @@ app.get("/api/climate", async (req, res, next) => {
 // the public OpenStreetMap Nominatim service policy.
 app.get("/api/locations/search", async (req, res, next) => {
     try {
-        const locationData = await searchLocations(req.query.q);
+        const locationData = await searchLocations(req.query.q, req.query.lang);
         res.json({
             provider: "OpenStreetMap Nominatim",
             attribution: "© OpenStreetMap contributors",

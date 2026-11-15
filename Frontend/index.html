@@ -236,12 +236,13 @@
         <form id="farm-form" novalidate>
           <fieldset>
             <legend>Farm location</legend>
-            <label>Search for a farm location
-              <span class="location-search-row"><input id="locationSearch" type="search" autocomplete="off" placeholder="e.g., Pokhara, Nepal"><button type="button" id="searchLocation" class="btn btn-ghost btn-search">Search</button></span>
+            <label>
+              <span id="locationSearchLabel" data-i18n="searchLocation">Search for a farm location</span>
+              <span class="location-search-row"><input id="locationSearch" type="search" autocomplete="off" placeholder="e.g., Pokhara, Nepal" enterkeyhint="search"><button type="button" id="searchLocation" class="btn btn-ghost btn-search" data-i18n="search">Search</button></span>
             </label>
-            <p id="locationSearchStatus" class="hint" aria-live="polite">Search is powered by OpenStreetMap.</p>
+            <p id="locationSearchStatus" class="hint" data-i18n="searchHint" aria-live="polite">Search is powered by OpenStreetMap.</p>
             <ul id="locationResults" class="location-results" aria-label="Location search results"></ul>
-            <p id="selectedLocation" class="selected-location" aria-live="polite"></p>
+            <p id="selectedLocation" class="selected-location" data-i18n="selectedLocation" aria-live="polite"></p>
             <div class="row">
               <label>Latitude
                 <input id="latitude" name="latitude" type="number" step="any" inputmode="decimal" value="26.66" required>

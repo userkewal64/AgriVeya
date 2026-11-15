@@ -3,6 +3,7 @@ const REQUEST_TIMEOUT_MS = 10000;
 const CACHE_TTL_MS = 24 * 60 * 60 * 1000;
 const MIN_REQUEST_INTERVAL_MS = 1000;
 const MAX_RESULTS = 5;
+const SUPPORTED_LANGUAGES = new Set(["en", "ne", "hi"]);
 const searchCache = new Map();
 let nextRequestAt = 0;
 
@@ -26,6 +27,11 @@ function validateQuery(value) {
     }
 
     return query;
+}
+
+function normalizeLanguage(value) {
+    const language = String(value || "en").trim().toLowerCase();
+    return SUPPORTED_LANGUAGES.has(language) ? language : "en";
 }
 
 function formatLocation(result) {
@@ -56,9 +62,10 @@ async function waitForNominatimSlot() {
     }
 }
 
-async function searchLocations(queryValue) {
+async function searchLocations(queryValue, languageValue) {
     const query = validateQuery(queryValue);
-    const cacheKey = query.toLowerCase();
+    const language = normalizeLanguage(languageValue);
+    const cacheKey = `${language}\n${query.toLowerCase()}`;
     const cachedEntry = searchCache.get(cacheKey);
 
     if (cachedEntry && cachedEntry.expiresAt > Date.now()) {
@@ -71,7 +78,8 @@ async function searchLocations(queryValue) {
         q: query,
         format: "jsonv2",
         addressdetails: "1",
-        limit: String(MAX_RESULTS)
+        limit: String(MAX_RESULTS),
+        "accept-language": language
     });
     const controller = new AbortController();
     const timeout = setTimeout(() => controller.abort(), REQUEST_TIMEOUT_MS);
@@ -79,7 +87,8 @@ async function searchLocations(queryValue) {
     try {
         const response = await fetch(`${NOMINATIM_SEARCH_URL}?${parameters}`, {
             headers: {
-                "User-Agent": "AgriVeya/1.0 (educational climate-smart agriculture project)"
+                "User-Agent": "AgriVeya/1.0 (educational climate-smart agriculture project)",
+                "Accept-Language": language
             },
             signal: controller.signal
         });
@@ -116,7 +125,13 @@ async function searchLocations(queryValue) {
     }
 }
 
+function clearLocationSearchState() {
+    searchCache.clear();
+    nextRequestAt = 0;
+}
+
 module.exports = {
     LocationSearchError,
+    clearLocationSearchState,
     searchLocations
 };

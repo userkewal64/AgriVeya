@@ -200,6 +200,7 @@ function translateStaticContent() {
   const nodes = [];
   while (walker.nextNode()) nodes.push(walker.currentNode);
   nodes.forEach((node) => {
+    if (node.parentElement && node.parentElement.closest("[data-i18n], #locationResults")) return;
     const source = node.__agriVeyaSource || node.nodeValue.trim();
     if (!source) return;
     node.__agriVeyaSource = source;
@@ -598,15 +599,15 @@ async function handleSubmit(event) {
     renderResults(await requestRecommendations(payload));
   } catch (error) {
     if (error.name === "AbortError") {
-      showError("The request took too long", "NASA POWER did not answer in time. Wait a moment and try again.");
+      showError(t("requestTimeout"), t("nasaUnavailable"));
     } else if (error.status === 502) {
-      showError("NASA climate data is unavailable", error.message, "FieldShift does not guess climate values, so no recommendations are shown. Try again shortly.");
+      showError(t("nasaUnavailable"), error.message);
     } else if (error.status === 400) {
-      showError("The server could not use these details", error.message, "Adjust the form and try again.");
+      showError(t("serverDetails"), error.message);
     } else if (error.status) {
-      showError("Something went wrong on the server", error.message);
+      showError(t("serverError"), error.message);
     } else {
-      showError("Can't reach the FieldShift server", "Make sure the backend is running (npm start in the Backend folder) and that you opened this page at http://localhost:4000/index.html.");
+      showError(t("serverOffline"), t("offlineHelp"));
     }
   } finally {
     button.disabled = false;
@@ -617,6 +618,8 @@ async function handleSubmit(event) {
 /* ---------- Location: homepage and planner stay independent ---------- */
 let detectedLocation = null;
 let selectedFarmLocation = null;
+let lastLocationQuery = "";
+let locationSearchRequest = 0;
 
 function setPlannerCoordinates(latitude, longitude, label) {
   $("latitude").value = Number(latitude).toFixed(5);
@@ -694,10 +697,16 @@ async function detectHomepageLocation() {
 }
 
 function updateLocationSearchText() {
+  $("locationSearchLabel").textContent = t("searchLocation");
   $("locationSearch").placeholder = t("searchPlaceholder");
+  $("searchLocation").textContent = t("search");
   $("locationSearchStatus").textContent = t("searchHint");
   $("locate").textContent = t("useLocation");
   $("submit").textContent = t("getOptions");
+  if (selectedFarmLocation) {
+    $("selectedLocation").textContent = t("selectedLocation", { name: selectedFarmLocation });
+  }
+  if (lastLocationQuery) searchFarmLocation();
 }
 
 function clearSelectedFarmLocation() {
@@ -709,6 +718,8 @@ function clearSelectedFarmLocation() {
 function renderLocationResults(results) {
   const list = $("locationResults");
   list.replaceChildren();
+  const selectedLatitude = Number($("latitude").value);
+  const selectedLongitude = Number($("longitude").value);
   results.forEach((result) => {
     const button = el("button", { type: "button", class: "location-result" }, el("strong", { text: result.name }), el("span", { text: result.context || result.displayName }));
     button.addEventListener("click", () => {
@@ -717,21 +728,33 @@ function renderLocationResults(results) {
       $("locationSearchStatus").textContent = t("sourceAttribution");
     });
     list.append(el("li", {}, button));
+    if (
+      selectedFarmLocation &&
+      Math.abs(result.latitude - selectedLatitude) < 0.0001 &&
+      Math.abs(result.longitude - selectedLongitude) < 0.0001
+    ) {
+      selectedFarmLocation = result.displayName;
+      $("selectedLocation").textContent = t("selectedLocation", { name: result.displayName });
+    }
   });
 }
 
 async function searchFarmLocation() {
   const query = $("locationSearch").value.trim();
   if (query.length < 2) {
+    lastLocationQuery = "";
     $("locationSearchStatus").textContent = t("noLocations");
     return;
   }
+  lastLocationQuery = query;
+  const requestId = ++locationSearchRequest;
   $("searchLocation").disabled = true;
   $("locationSearchStatus").textContent = t("searching");
   $("locationResults").replaceChildren();
   try {
-    const response = await fetch(`/api/locations/search?q=${encodeURIComponent(query)}`);
+    const response = await fetch(`/api/locations/search?q=${encodeURIComponent(query)}&lang=${encodeURIComponent(currentLanguage)}`);
     const body = await response.json();
+    if (requestId !== locationSearchRequest) return;
     if (!response.ok) throw new Error(body.error || "search failed");
     if (!body.results.length) {
       $("locationSearchStatus").textContent = t("noLocations");
@@ -740,9 +763,10 @@ async function searchFarmLocation() {
     $("locationSearchStatus").textContent = t("chooseLocation");
     renderLocationResults(body.results);
   } catch (_) {
+    if (requestId !== locationSearchRequest) return;
     $("locationSearchStatus").textContent = t("locationSearchError");
   } finally {
-    $("searchLocation").disabled = false;
+    if (requestId === locationSearchRequest) $("searchLocation").disabled = false;
   }
 }
 
