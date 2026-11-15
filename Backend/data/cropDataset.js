@@ -2,6 +2,7 @@ const cropDatasetMetadata = {
     status: "Illustrative decision-support profiles, not local agronomic prescriptions.",
     assumptions: [
         "Temperature and annual-rainfall bands are broad screening heuristics, not crop-stage or cultivar-specific thresholds.",
+        "Planting and harvest windows are indicative South Asian crop-calendar ranges; local elevation, variety, irrigation, and management can shift them substantially.",
         "Soil types describe texture-level compatibility only; pH, drainage, fertility, salinity, irrigation, pests, markets, and farm management are not modelled.",
         "Local extension guidance and field observations should override these profiles."
     ],
@@ -25,7 +26,8 @@ const crops = [
         name: "Rice",
         family: "Poaceae",
         season: "monsoon",
-        suitableSoils: ["clay", "clay-loam", "loam", "silt"],
+        calendar: { plantingMonths: [6, 7], harvestMonths: [10, 11], durationDays: [120, 150] },
+        suitableSoils: ["silt", "silt-loam", "loam", "clay-loam", "silty-clay-loam", "silty-clay", "clay"],
         temperatureBandC: { min: 20, max: 35 },
         annualRainfallBandMm: { min: 1000, max: 2200 },
         waterNeed: "high",
@@ -39,7 +41,8 @@ const crops = [
         name: "Maize",
         family: "Poaceae",
         season: "monsoon",
-        suitableSoils: ["loam", "sandy-loam", "silt", "clay-loam"],
+        calendar: { plantingMonths: [5, 6], harvestMonths: [9, 10], durationDays: [100, 130] },
+        suitableSoils: ["sandy-loam", "loam", "silt-loam", "silt", "sandy-clay-loam", "clay-loam"],
         temperatureBandC: { min: 18, max: 32 },
         annualRainfallBandMm: { min: 500, max: 1200 },
         waterNeed: "medium",
@@ -53,7 +56,8 @@ const crops = [
         name: "Wheat",
         family: "Poaceae",
         season: "winter",
-        suitableSoils: ["loam", "silt", "clay-loam"],
+        calendar: { plantingMonths: [11, 12], harvestMonths: [3, 4], durationDays: [120, 150] },
+        suitableSoils: ["silt-loam", "silt", "loam", "clay-loam", "silty-clay-loam"],
         temperatureBandC: { min: 12, max: 25 },
         annualRainfallBandMm: { min: 300, max: 900 },
         waterNeed: "medium",
@@ -67,7 +71,8 @@ const crops = [
         name: "Lentil",
         family: "Fabaceae",
         season: "winter",
-        suitableSoils: ["loam", "sandy-loam", "silt", "clay-loam"],
+        calendar: { plantingMonths: [10, 11], harvestMonths: [2, 3], durationDays: [100, 130] },
+        suitableSoils: ["loamy-sand", "sandy-loam", "loam", "silt-loam", "silt", "sandy-clay-loam", "clay-loam"],
         temperatureBandC: { min: 15, max: 25 },
         annualRainfallBandMm: { min: 300, max: 800 },
         waterNeed: "low",
@@ -81,7 +86,8 @@ const crops = [
         name: "Mustard",
         family: "Brassicaceae",
         season: "winter",
-        suitableSoils: ["loam", "sandy-loam", "silt", "clay-loam"],
+        calendar: { plantingMonths: [10, 11], harvestMonths: [2, 3], durationDays: [90, 120] },
+        suitableSoils: ["sandy-loam", "loam", "silt-loam", "silt", "sandy-clay-loam", "clay-loam"],
         temperatureBandC: { min: 10, max: 25 },
         annualRainfallBandMm: { min: 300, max: 900 },
         waterNeed: "low",
@@ -95,7 +101,8 @@ const crops = [
         name: "Chickpea",
         family: "Fabaceae",
         season: "winter",
-        suitableSoils: ["loam", "sandy-loam", "silt", "clay-loam"],
+        calendar: { plantingMonths: [10, 11], harvestMonths: [3, 4], durationDays: [100, 130] },
+        suitableSoils: ["loamy-sand", "sandy-loam", "loam", "silt-loam", "sandy-clay-loam", "clay-loam"],
         temperatureBandC: { min: 15, max: 30 },
         annualRainfallBandMm: { min: 400, max: 800 },
         waterNeed: "low",
@@ -109,7 +116,8 @@ const crops = [
         name: "Millet",
         family: "Poaceae",
         season: "monsoon",
-        suitableSoils: ["sandy", "sandy-loam", "loam", "clay-loam"],
+        calendar: { plantingMonths: [5, 6], harvestMonths: [10, 11], durationDays: [100, 130] },
+        suitableSoils: ["sand", "loamy-sand", "sandy-loam", "loam", "sandy-clay-loam", "clay-loam"],
         temperatureBandC: { min: 20, max: 35 },
         annualRainfallBandMm: { min: 300, max: 900 },
         waterNeed: "low",
@@ -123,7 +131,8 @@ const crops = [
         name: "Mung bean",
         family: "Fabaceae",
         season: "spring-summer",
-        suitableSoils: ["sandy-loam", "loam", "silt", "clay-loam"],
+        calendar: { plantingMonths: [2, 3], harvestMonths: [4, 5], durationDays: [60, 75] },
+        suitableSoils: ["sandy-loam", "loam", "silt-loam", "silt", "sandy-clay-loam", "clay-loam"],
         temperatureBandC: { min: 20, max: 35 },
         annualRainfallBandMm: { min: 400, max: 1000 },
         waterNeed: "low",
@@ -134,15 +143,47 @@ const crops = [
     }
 ];
 
+const supportedSoilTypes = [
+    "sand",
+    "loamy-sand",
+    "sandy-loam",
+    "loam",
+    "silt-loam",
+    "silt",
+    "sandy-clay-loam",
+    "clay-loam",
+    "silty-clay-loam",
+    "sandy-clay",
+    "silty-clay",
+    "clay",
+    "unknown"
+];
+
 const soilTypeAliases = {
-    clay: "clay",
-    "clay-loam": "clay-loam",
-    clayloam: "clay-loam",
-    loam: "loam",
-    sandy: "sandy",
+    sand: "sand",
+    sandy: "sand",
+    "loamy-sand": "loamy-sand",
+    loamysand: "loamy-sand",
     "sandy-loam": "sandy-loam",
     sandyloam: "sandy-loam",
-    silt: "silt"
+    loam: "loam",
+    "silt-loam": "silt-loam",
+    siltloam: "silt-loam",
+    silt: "silt",
+    "sandy-clay-loam": "sandy-clay-loam",
+    sandyclayloam: "sandy-clay-loam",
+    "clay-loam": "clay-loam",
+    clayloam: "clay-loam",
+    "silty-clay-loam": "silty-clay-loam",
+    siltyclayloam: "silty-clay-loam",
+    "sandy-clay": "sandy-clay",
+    sandyclay: "sandy-clay",
+    "silty-clay": "silty-clay",
+    siltyclay: "silty-clay",
+    clay: "clay",
+    unknown: "unknown",
+    "dont-know": "unknown",
+    "don't-know": "unknown"
 };
 
 function normaliseText(value) {
@@ -166,7 +207,5 @@ module.exports = {
     cropDatasetMetadata,
     getCropById,
     normaliseSoilType,
-    supportedSoilTypes: Object.values(soilTypeAliases).filter(
-        (value, index, values) => values.indexOf(value) === index
-    )
+    supportedSoilTypes
 };

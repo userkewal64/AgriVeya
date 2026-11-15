@@ -4,7 +4,20 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#06100b">
-  <title>FieldShift: climate-aware crop rotation</title>
+  <script>
+    if ("scrollRestoration" in history) history.scrollRestoration = "manual";
+    if (location.hash) {
+      history.replaceState(history.state, "", location.pathname + location.search);
+    }
+    window.addEventListener("pageshow", () => {
+      const root = document.documentElement;
+      const scrollBehavior = root.style.scrollBehavior;
+      root.style.scrollBehavior = "auto";
+      window.scrollTo(0, 0);
+      root.style.scrollBehavior = scrollBehavior;
+    }, { once: true });
+  </script>
+  <title>AgriVeya: Smart Crop Rotation</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -12,19 +25,73 @@
 </head>
 <body>
 
+  <svg class="site-art" viewBox="0 0 1440 720" preserveAspectRatio="xMidYMax slice" aria-hidden="true">
+    <defs>
+      <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0" stop-color="#050d09"/><stop offset=".4" stop-color="#0c1d15"/>
+        <stop offset=".65" stop-color="#2a3520"/><stop offset=".85" stop-color="#7d6a33"/><stop offset="1" stop-color="#b8903f"/>
+      </linearGradient>
+      <radialGradient id="glow" cx=".5" cy=".5" r=".5">
+        <stop offset="0" stop-color="#ffd682" stop-opacity=".55"/><stop offset="1" stop-color="#ffd682" stop-opacity="0"/>
+      </radialGradient>
+    </defs>
+    <rect width="1440" height="720" fill="url(#sky)"/>
+    <ellipse cx="1040" cy="390" rx="540" ry="300" fill="url(#glow)"/>
+    <path d="M0 430 L120 380 L240 420 L380 340 L520 410 L660 360 L800 420 L940 330 L1100 410 L1260 350 L1440 420 L1440 720 L0 720Z" fill="#1a2e24" opacity=".85"/>
+    <path d="M0 480 L160 430 L300 470 L460 410 L620 470 L780 440 L960 480 L1120 430 L1300 470 L1440 440 L1440 720 L0 720Z" fill="#132418"/>
+    <path d="M0 520 C240 490 420 540 700 510 S1160 490 1440 520 L1440 720 L0 720Z" fill="#1f4425"/>
+    <path d="M0 570 C260 540 460 590 740 560 S1180 540 1440 575 L1440 720 L0 720Z" fill="#1a3b21"/>
+    <path d="M0 620 C220 595 480 640 760 610 S1200 590 1440 625 L1440 720 L0 720Z" fill="#15321c"/>
+    <path d="M0 665 C300 640 520 685 800 655 S1240 640 1440 670 L1440 720 L0 720Z" fill="#112a17"/>
+    <g fill="none" stroke="#a3d95f" stroke-opacity=".28" stroke-width="1.5">
+      <path d="M0 520 C240 490 420 540 700 510 S1160 490 1440 520"/>
+      <path d="M0 570 C260 540 460 590 740 560 S1180 540 1440 575"/>
+      <path d="M0 620 C220 595 480 640 760 610 S1200 590 1440 625"/>
+      <path d="M0 665 C300 640 520 685 800 655 S1240 640 1440 670"/>
+    </g>
+    <g class="site-network">
+      <path d="M390 184h150l48 27M900 158h-70l-38 28M828 310h132M592 304h-118"/>
+      <circle cx="390" cy="184" r="3"/><circle cx="960" cy="310" r="3"/>
+      <circle cx="474" cy="304" r="3"/><circle cx="900" cy="158" r="3"/>
+    </g>
+    <g class="hero-observation-orbit" fill="none">
+      <ellipse cx="710" cy="214" rx="154" ry="66" transform="rotate(-24 710 214)"/>
+      <ellipse cx="710" cy="214" rx="118" ry="48" transform="rotate(-24 710 214)"/>
+      <ellipse cx="710" cy="214" rx="78" ry="29" transform="rotate(-24 710 214)"/>
+      <circle cx="710" cy="214" r="34"/>
+      <path d="M593 247C627 284 672 306 721 310M792 176c31 8 55 25 74 47"/>
+      <circle cx="605" cy="244" r="3"/>
+      <circle cx="797" cy="177" r="3"/>
+      <circle cx="731" cy="310" r="2"/>
+    </g>
+    <g class="hero-satellite" transform="translate(710 214) rotate(-24)">
+      <rect x="-10" y="-7" width="20" height="14" rx="2"/>
+      <path d="M-33-10h18v20h-18zM15-10h18v20H15zM-33 0h-6m57 0h6M0-7V-16m0 23v9"/>
+      <circle cy="-17" r="2"/>
+    </g>
+  </svg>
+
   <!-- ===== Navigation ===== -->
   <header class="nav" id="top">
     <div class="nav-inner">
-      <a class="brand" href="#top" aria-label="FieldShift home">
+      <a class="brand" href="#top" aria-label="AgriVeya home">
         <svg class="brand-mark" viewBox="0 0 32 32" aria-hidden="true"><path d="M16 29V15M16 15C16 9 11 5 4 5c0 7 4 10 12 10ZM16 19c0-5 4-8 11-8 0 6-3 9-11 9Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        <span class="brand-text"><b>FieldShift</b><small>Climate-smart rotation</small></span>
+        <span class="brand-text"><b>AgriVeya</b><small>Smart Crop Rotation</small></span>
       </a>
-      <nav class="menu" id="menu" aria-label="Main">
+      <nav class="menu" id="menu" aria-label="Main navigation">
         <a href="#top">Home</a>
         <a href="#how">How it works</a>
         <a href="#planner">Planner</a>
         <a href="#data">About the data</a>
         <a class="btn btn-primary btn-sm menu-cta" href="#planner">Plan my season</a>
+        <label class="language-control">
+          <span class="sr-only">Language</span>
+          <select id="language-select" aria-label="Language">
+            <option value="en">English</option>
+            <option value="ne">नेपाली</option>
+            <option value="hi">हिन्दी</option>
+          </select>
+        </label>
       </nav>
       <button class="menu-toggle" id="menu-toggle" type="button" aria-expanded="false" aria-controls="menu" aria-label="Open menu">
         <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
@@ -34,37 +101,11 @@
 
   <!-- ===== Hero ===== -->
   <section class="hero">
-    <svg class="hero-art" viewBox="0 0 1440 720" preserveAspectRatio="xMidYMax slice" aria-hidden="true">
-      <defs>
-        <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0" stop-color="#050d09"/><stop offset=".4" stop-color="#0c1d15"/>
-          <stop offset=".65" stop-color="#2a3520"/><stop offset=".85" stop-color="#7d6a33"/><stop offset="1" stop-color="#b8903f"/>
-        </linearGradient>
-        <radialGradient id="glow" cx=".5" cy=".5" r=".5">
-          <stop offset="0" stop-color="#ffd682" stop-opacity=".55"/><stop offset="1" stop-color="#ffd682" stop-opacity="0"/>
-        </radialGradient>
-      </defs>
-      <rect width="1440" height="720" fill="url(#sky)"/>
-      <ellipse cx="1040" cy="390" rx="540" ry="300" fill="url(#glow)"/>
-      <path d="M0 430 L120 380 L240 420 L380 340 L520 410 L660 360 L800 420 L940 330 L1100 410 L1260 350 L1440 420 L1440 720 L0 720Z" fill="#1a2e24" opacity=".85"/>
-      <path d="M0 480 L160 430 L300 470 L460 410 L620 470 L780 440 L960 480 L1120 430 L1300 470 L1440 440 L1440 720 L0 720Z" fill="#132418"/>
-      <path d="M0 520 C240 490 420 540 700 510 S1160 490 1440 520 L1440 720 L0 720Z" fill="#1f4425"/>
-      <path d="M0 570 C260 540 460 590 740 560 S1180 540 1440 575 L1440 720 L0 720Z" fill="#1a3b21"/>
-      <path d="M0 620 C220 595 480 640 760 610 S1200 590 1440 625 L1440 720 L0 720Z" fill="#15321c"/>
-      <path d="M0 665 C300 640 520 685 800 655 S1240 640 1440 670 L1440 720 L0 720Z" fill="#112a17"/>
-      <g fill="none" stroke="#a3d95f" stroke-opacity=".28" stroke-width="1.5">
-        <path d="M0 520 C240 490 420 540 700 510 S1160 490 1440 520"/>
-        <path d="M0 570 C260 540 460 590 740 560 S1180 540 1440 575"/>
-        <path d="M0 620 C220 595 480 640 760 610 S1200 590 1440 625"/>
-        <path d="M0 665 C300 640 520 685 800 655 S1240 640 1440 670"/>
-      </g>
-    </svg>
-
     <div class="hero-inner">
       <div class="hero-copy">
         <span class="pill"><i class="dot"></i>Built on NASA POWER climate data</span>
         <h1>Plan the next season.<br><span>Grow with the climate.</span></h1>
-        <p>FieldShift reads what the climate has done on your land, adds your soil, your last crop and your priorities, and ranks three crop rotations you can explain to anyone.</p>
+        <p>Climate observations, your soil, and crop preferences help rank practical annual plans for your field.</p>
         <div class="hero-actions">
           <a class="btn btn-primary" href="#planner">Plan my season<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
           <a class="btn btn-ghost" href="#how">How it works</a>
@@ -102,45 +143,13 @@
     </div>
   </section>
 
-  <!-- ===== How it works ===== -->
-  <section class="section" id="how">
-    <div class="section-head">
-      <div>
-        <h2>How FieldShift decides</h2>
-      </div>
-      <p>Every score comes from the same simple, open rules. You can see which facts pushed a crop up or down.</p>
-    </div>
-    <div class="cards4">
-      <article class="card glass">
-        <div class="icon"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M5 5l2 2M17 17l2 2M19 5l-2 2M7 17l-2 2" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></div>
-        <h3>NASA climate record</h3>
-        <p>Temperature, rainfall, humidity and sunlight for your exact coordinates, taken from NASA POWER.</p>
-      </article>
-      <article class="card glass">
-        <div class="icon icon-earth"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3 3 8l9 5 9-5-9-5ZM3 13l9 5 9-5M3 17.5l9 5 9-5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" stroke-linecap="round"/></svg></div>
-        <h3>Soil and last crop</h3>
-        <p>Your soil texture and what you grew last season decide which crops fit and which ones rotate well.</p>
-      </article>
-      <article class="card glass">
-        <div class="icon icon-sky"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h10M18 7h2M4 17h2M10 17h10M4 12h4M12 12h8" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><circle cx="16" cy="7" r="2" fill="none" stroke="currentColor" stroke-width="1.8"/><circle cx="8" cy="17" r="2" fill="none" stroke="currentColor" stroke-width="1.8"/><circle cx="10" cy="12" r="2" fill="none" stroke="currentColor" stroke-width="1.8"/></svg></div>
-        <h3>Your priorities</h3>
-        <p>Say how much water saving, climate resilience and soil health matter to you. The ranking shifts with you.</p>
-      </article>
-      <article class="card glass">
-        <div class="icon icon-sun"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M17 3l3 3-3 3M20 6H9a5 5 0 0 0-5 5M7 21l-3-3 3-3M4 18h11a5 5 0 0 0 5-5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-        <h3>Ranked rotations</h3>
-        <p>Three next-season options in order, each with reasons, risks and a clear score.</p>
-      </article>
-    </div>
-  </section>
-
   <!-- ===== Planner ===== -->
   <section class="section planner" id="planner">
     <div class="section-head">
       <div>
         <h2>Plan your next season</h2>
       </div>
-      <p>Enter your farm details. FieldShift fetches the climate record for your coordinates and ranks your options.</p>
+      <p>Choose your location and field details to compare regional crop rotations.</p>
     </div>
 
     <div class="planner-grid">
@@ -148,6 +157,12 @@
         <form id="farm-form" novalidate>
           <fieldset>
             <legend>Farm location</legend>
+            <label class="location-search-label" for="location-search">Search for a place
+              <input id="location-search" name="locationSearch" type="search" autocomplete="off" placeholder="City, district, or country" aria-autocomplete="list" aria-expanded="false" aria-controls="location-suggestions">
+            </label>
+            <div id="location-suggestions" class="location-suggestions" role="listbox" aria-label="Location suggestions" hidden></div>
+            <p id="location-status" class="location-status" aria-live="polite"></p>
+            <p class="location-attribution">Location results © OpenStreetMap contributors</p>
             <div class="row">
               <label>Latitude
                 <input id="latitude" name="latitude" type="number" step="any" inputmode="decimal" value="26.66" required>
@@ -164,9 +179,10 @@
             <label>Soil texture
               <select id="soilType" name="soilType" required></select>
             </label>
-            <label>Crop grown last season
-              <select id="previousCrop" name="previousCrop" required></select>
-            </label>
+            <div class="field-label" id="preferred-crops-label">Preferred crops <span>Optional</span></div>
+            <p class="hint">Choose crops you are interested in. Recommendations still prioritize local and seasonal suitability.</p>
+            <div id="preferred-crops" class="preferred-crops" role="group" aria-labelledby="preferred-crops-label"></div>
+            <p id="crop-options-status" class="location-status" aria-live="polite"></p>
           </fieldset>
 
           <fieldset>
@@ -195,35 +211,59 @@
         <section class="glass empty">
           <div class="empty-mark" aria-hidden="true"><svg viewBox="0 0 32 32"><path d="M16 29V15M16 15C16 9 11 5 4 5c0 7 4 10 12 10ZM16 19c0-5 4-8 11-8 0 6-3 9-11 9Z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
           <h3>Your rotation options will appear here</h3>
-          <p>Fill in your farm details and choose <strong>Get rotation options</strong>. You'll see the climate record for your land, then three ranked crops for your next season.</p>
+          <p>Fill in your farm details and choose <strong>Get rotation options</strong>. You'll see a climate-screened plan for summer, monsoon and winter, or the best feasible alternative when a season is unsupported.</p>
         </section>
       </div>
     </div>
   </section>
 
-  <!-- ===== About the data ===== -->
-  <section class="section" id="data">
-    <div class="data-grid">
+  <!-- ===== How it works ===== -->
+  <section class="section" id="how">
+    <div class="section-head">
       <div>
-        <h2>Data. Rules.<br>Rotation.</h2>
-        <p class="lead">FieldShift is built to be checked, not trusted blindly. The same inputs always give the same answer, and every score can be traced back to a reason.</p>
-        <ul class="ticks">
-          <li>Historical NASA POWER observations for your coordinates</li>
-          <li>A transparent weighted score, with no hidden model</li>
-          <li>Crop family and season checked against your last crop</li>
-          <li>Risks listed next to every recommendation</li>
-        </ul>
+        <h2>How FieldShift decides</h2>
       </div>
-      <div class="glass limits">
-        <h3>What FieldShift does not do</h3>
-        <ul>
-          <li><b>It is not a weather forecast.</b> It shows what the climate did in the past.</li>
-          <li><b>It does not predict yield.</b> Scores rank crops, they do not promise harvests.</li>
-          <li><b>It does not measure your soil.</b> You tell it the soil texture.</li>
-          <li><b>Crop profiles are simplified.</b> They are illustrative, so confirm with local advice before planting.</li>
-        </ul>
-      </div>
+      <p>Clear rules connect your location, soil and priorities to each crop plan.</p>
     </div>
+    <div class="cards4">
+      <article class="card glass">
+        <div class="icon"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M5 5l2 2M17 17l2 2M19 5l-2 2M7 17l-2 2" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></div>
+        <h3>NASA climate record</h3>
+        <p>Historical temperature, rainfall, humidity and sunlight for your location.</p>
+      </article>
+      <article class="card glass">
+        <div class="icon icon-earth"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3 3 8l9 5 9-5-9-5ZM3 13l9 5 9-5M3 17.5l9 5 9-5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" stroke-linecap="round"/></svg></div>
+        <h3>Soil and crop preferences</h3>
+        <p>Your soil, local climate, and preferred crops inform each annual plan.</p>
+      </article>
+      <article class="card glass">
+        <div class="icon icon-sky"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h10M18 7h2M4 17h2M10 17h10M4 12h4M12 12h8" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><circle cx="16" cy="7" r="2" fill="none" stroke="currentColor" stroke-width="1.8"/><circle cx="8" cy="17" r="2" fill="none" stroke="currentColor" stroke-width="1.8"/><circle cx="10" cy="12" r="2" fill="none" stroke="currentColor" stroke-width="1.8"/></svg></div>
+        <h3>Your priorities</h3>
+        <p>Choose what matters most: water, climate resilience or soil health.</p>
+      </article>
+      <article class="card glass">
+        <div class="icon icon-sun"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M17 3l3 3-3 3M20 6H9a5 5 0 0 0-5 5M7 21l-3-3 3-3M4 18h11a5 5 0 0 0 5-5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <h3>Ranked rotations</h3>
+        <p>Compare crop plans with clear benefits, scores and risks.</p>
+      </article>
+    </div>
+  </section>
+
+  <!-- ===== About the data ===== -->
+  <section class="section data-section" id="data">
+    <div class="data-head">
+      <h2>Data. Rules.<br>Rotation.</h2>
+    </div>
+    <div class="data-method">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h10M18 7h2M4 17h2M10 17h10M4 12h4M12 12h8" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><circle cx="16" cy="7" r="2" fill="none" stroke="currentColor" stroke-width="1.8"/><circle cx="8" cy="17" r="2" fill="none" stroke="currentColor" stroke-width="1.8"/><circle cx="10" cy="12" r="2" fill="none" stroke="currentColor" stroke-width="1.8"/></svg>
+      <span>A transparent weighted score, with no hidden model</span>
+    </div>
+    <ul class="data-caveats">
+      <li><span aria-hidden="true">◷</span><span>Historical observations, not a forecast.</span></li>
+      <li><span aria-hidden="true">↗</span><span>It does not predict yield.</span></li>
+      <li><span aria-hidden="true">⌖</span><span>You tell it the soil texture.</span></li>
+      <li><span aria-hidden="true">✓</span><span>They are illustrative, so confirm with local advice before planting.</span></li>
+    </ul>
   </section>
 
   <!-- ===== Closing banner ===== -->
@@ -241,6 +281,8 @@
     <p>Climate data: NASA POWER (historical observations, not a forecast). Scores come from a simple, explainable rule set and do not predict yield.</p>
   </footer>
 
+  <script src="vendor/nepali-date-converter.umd.js"></script>
+  <script src="calendar.js"></script>
   <script src="script.js"></script>
 </body>
 </html>
