@@ -1,5 +1,8 @@
 "use strict";
 
+const API_BASE_URL = "https://agriveya.onrender.com";
+const apiUrl = (path) => `${API_BASE_URL}${path}`;
+
 const LANGUAGE_TEXT = {
   ne: {
     "Home": "गृहपृष्ठ", "How it works": "कसरी काम गर्छ", "Planner": "योजना", "About the data": "तथ्याङ्कबारे", "Plan my season": "मेरो मौसम योजना बनाउनुहोस्",
@@ -1424,7 +1427,7 @@ async function requestRecommendations(payload) {
   const controller = new AbortController();
   const timer = setTimeout(() => controller.abort(), CONFIG.requestTimeoutMs);
   try {
-    const response = await fetch("/api/recommendations", {
+    const response = await fetch(apiUrl("/api/recommendations"), {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(payload),
@@ -1506,7 +1509,7 @@ async function requestLocationDetails(coordinates) {
     longitude: String(coordinates.longitude),
     language: $("language-select").value
   });
-  const response = await fetch(`/api/locations/reverse?${parameters}`);
+  const response = await fetch(apiUrl(`/api/locations/reverse?${parameters}`));
   const data = await response.json();
   if (!response.ok) throw new Error(data.error || `Location lookup failed (${response.status}).`);
   return data.location || {};
@@ -1637,7 +1640,7 @@ async function loadRegionalCropOptions(location) {
     if (location && location.name) parameters.set("name", location.name);
     if (location && location.displayName) parameters.set("displayName", location.displayName);
 
-    const response = await fetch(`/api/crops/regional?${parameters}`, { signal });
+    const response = await fetch(apiUrl(`/api/crops/regional?${parameters}`), { signal });
     const data = await response.json();
     if (!response.ok) throw new Error(data.error || `Regional crop lookup failed (${response.status}).`);
     if (requestId !== regionalCropRequestId) return;
@@ -1685,7 +1688,7 @@ function setupLocationSearch() {
       parameters.set("latitude", String(currentLocationReference.latitude));
       parameters.set("longitude", String(currentLocationReference.longitude));
     }
-    return `/api/locations/search?${parameters}`;
+    return apiUrl(`/api/locations/search?${parameters}`);
   }
 
   function closeList() {
@@ -1904,7 +1907,7 @@ async function handleLocate() {
 async function loadSnapshot() {
   const { latitude, longitude, label } = CONFIG.snapshot;
   try {
-    const response = await fetch(`/api/climate?latitude=${latitude}&longitude=${longitude}`);
+    const response = await fetch(apiUrl(`/api/climate?latitude=${latitude}&longitude=${longitude}`));
     if (!response.ok) throw new Error("climate request failed");
     const data = await response.json();
     snapshotData = data;
