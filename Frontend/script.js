@@ -88,6 +88,7 @@ const LANGUAGE_TEXT = {
     "Monsoon": "मनसुन",
     "Plant": "रोपाइँ",
     "Harvest": "कटानी",
+    "Planting to harvest": "रोपाइँदेखि कटानीसम्म",
     "AD": "ई.सं.",
     "BS": "वि.सं.",
     "BS conversion unavailable for this date.": "यो मितिका लागि वि.सं. रूपान्तरण उपलब्ध छैन।",
@@ -303,6 +304,7 @@ const LANGUAGE_TEXT = {
     "Monsoon": "मानसून",
     "Plant": "बुवाई",
     "Harvest": "कटाई",
+    "Planting to harvest": "बुवाई से कटाई तक",
     "AD": "ईस्वी",
     "BS": "वि.सं.",
     "BS conversion unavailable for this date.": "इस तारीख के लिए वि.सं. रूपांतरण उपलब्ध नहीं है।",
@@ -1001,15 +1003,39 @@ function createSpeechControls(text) {
   return controls;
 }
 
-function buildAnnualPlanSpeechText(rec, index, plan, phases, calendarYear) {
+const SEASON_MONTH_NAMES = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+
+function formatSeasonMonthWindow(months, language, season, period) {
+  if (!Array.isArray(months) || months.length !== 2 ||
+      months.some((month) => !Number.isInteger(month) || month < 1 || month > 12)) return "";
+  const monthIndex = period === "planting" ? 0 : 1;
+  if (language === "ne") {
+    const formatted = AgriVeyaCalendar.formatMonthWindow(
+      months, season, period, AgriVeyaCalendar.getPlanStartYear(), language
+    );
+    if (!formatted) return "";
+    const monthNames = formatted.split(" – ").map((range) => range.trim().split(/\s+/)[1]);
+    return monthNames.length === 2 && monthNames[monthIndex] ? monthNames[monthIndex] : "";
+  }
+  return translatedText(SEASON_MONTH_NAMES[months[monthIndex] - 1], language);
+}
+
+function formatElapsedDurationMonths(durationDays, language) {
+  if (!Array.isArray(durationDays) || durationDays.length !== 2 ||
+      !durationDays.every((days) => Number.isFinite(days) && days > 0)) return "";
+  const monthRange = durationDays
+    .map((days) => Math.max(1, Math.round(days / (365 / 12))))
+    .sort((left, right) => left - right);
+  const value = monthRange[0] === monthRange[1]
+    ? String(monthRange[0])
+    : `${monthRange[0]}–${monthRange[1]}`;
+  return `${value} ${translatedText(monthRange[1] === 1 ? "month" : "months", language)}`;
+}
+
+function buildAnnualPlanSpeechText(rec, index, plan, phases) {
   const parts = [];
   const add = (value) => {
     if (value) parts.push(String(value).trim());
-  };
-  const speechWindow = (months, season, period) => {
-    if (!Array.isArray(months)) return "";
-    const formatted = AgriVeyaCalendar.formatMonthWindow(months, season, period, calendarYear, "en");
-    return formatted ? `${formatted} AD` : "";
   };
   const score = pick(rec, ["suitabilityScore"]);
 
@@ -1031,14 +1057,17 @@ function buildAnnualPlanSpeechText(rec, index, plan, phases, calendarYear) {
     const crop = CONFIG.cropLabels[phase.cropId] || CONFIG.cropLabels[rawCrop] || rawCrop || "Not provided";
     add(`${seasonLabel} crop: ${crop}.`);
 
-    const planting = speechWindow(phase.plantingMonths, season, "planting");
-    const harvest = speechWindow(phase.harvestMonths, season, "harvest");
-    if (planting) add(`Plant: ${planting}.`);
-    if (harvest) add(`Harvest: ${harvest}.`);
-    if (!planting && !harvest && phase.monthRange) add(`${phase.monthRange}.`);
-    if (Array.isArray(phase.durationDays)) {
-      add(`Duration: ${phase.durationDays[0]} to ${phase.durationDays[1]} days.`);
+    const planting = formatSeasonMonthWindow(phase.plantingMonths, "en", season, "planting");
+    const harvest = formatSeasonMonthWindow(phase.harvestMonths, "en", season, "harvest");
+    const duration = formatElapsedDurationMonths(phase.durationDays, "en");
+    if (planting && harvest) {
+      add(`Planting to harvest: ${planting} to ${harvest}${duration ? ` (${duration})` : ""}.`);
+    } else {
+      if (planting) add(`Plant: ${planting}.`);
+      if (harvest) add(`Harvest: ${harvest}.`);
+      if (duration) add(`Duration: ${duration}.`);
     }
+    if (!planting && !harvest && phase.monthRange) add(`${phase.monthRange}.`);
 
     const waterNeeds = { low: "Low water need", medium: "Moderate water need", high: "High water need" };
     if (waterNeeds[phase.waterNeed]) add(`${waterNeeds[phase.waterNeed]}.`);
@@ -1087,17 +1116,10 @@ function buildAnnualPlanSpeechText(rec, index, plan, phases, calendarYear) {
 function renderAnnualRotationPlan(rec, index, focusedIndex = 0) {
   const plan = rec.seasonalPlan || {};
   const language = $("language-select") ? $("language-select").value : "en";
-  const calendarYear = AgriVeyaCalendar.getPlanStartYear();
   const legacyPhases = ["summer", "monsoon", "winter"].map((season) => plan[season])
     .filter(Boolean)
     .map((phase) => ({ ...phase, season: phase.season || (phase.cropId === "mung-bean" ? "summer" : "winter") }));
   const phases = Array.isArray(plan.phases) ? plan.phases : legacyPhases;
-  const formatWindow = (months, season, period) => {
-    if (!Array.isArray(months)) return "";
-    const formatted = AgriVeyaCalendar.formatMonthWindow(months, season, period, calendarYear, language);
-    if (!formatted) return translatedText("BS conversion unavailable for this date.", language);
-    return `${formatted} ${translatedText(language === "ne" ? "BS" : "AD", language)}`;
-  };
   const phaseCard = (phase) => {
     const season = phase.season;
     const climate = phase.climate || {};
@@ -1107,11 +1129,15 @@ function renderAnnualRotationPlan(rec, index, focusedIndex = 0) {
     const temperature = Number.isFinite(climate.averageTemperatureC)
       ? `${translatedText("Average temperature")}: ${fmt(climate.averageTemperatureC, 1)} °C`
       : "";
-    const planting = formatWindow(phase.plantingMonths, season, "planting");
-    const harvest = formatWindow(phase.harvestMonths, season, "harvest");
-    const duration = Array.isArray(phase.durationDays)
-      ? `${translatedText("Duration")}: ${phase.durationDays[0]}–${phase.durationDays[1]} ${translatedText("days")}`
-      : "";
+    const planting = formatSeasonMonthWindow(phase.plantingMonths, language, season, "planting");
+    const harvest = formatSeasonMonthWindow(phase.harvestMonths, language, season, "harvest");
+    const duration = formatElapsedDurationMonths(phase.durationDays, language);
+    const timing = planting && harvest
+      ? `${translatedText("Planting to harvest", language)}: ${planting} → ${harvest}${duration ? ` (${duration})` : ""}`
+      : [planting ? `${translatedText("Plant", language)}: ${planting}` : "",
+        harvest ? `${translatedText("Harvest", language)}: ${harvest}` : "", duration]
+        .filter(Boolean)
+        .join(" · ");
     const waterNeedLabels = {
       low: "Low water need",
       medium: "Moderate water need",
@@ -1146,12 +1172,8 @@ function renderAnnualRotationPlan(rec, index, focusedIndex = 0) {
       el("div", {},
         el("h4", { text: `${translatedText(season[0].toUpperCase() + season.slice(1))} ${translatedText("crop")}` }),
         el("strong", { text: translatedText(phase.crop || "Not provided.") }),
-        planting || harvest
-          ? el("div", { class: "season-dates" },
-            planting ? el("small", { text: `${translatedText("Plant")}: ${planting}` }) : null,
-            harvest ? el("small", { text: `${translatedText("Harvest")}: ${harvest}` }) : null,
-            duration ? el("small", { text: duration }) : null
-          )
+        timing
+          ? el("div", { class: "season-dates" }, el("small", { text: timing }))
           : el("small", { text: language === "ne"
             ? translatedText("BS conversion unavailable for this date.", language)
             : translatedText(phase.monthRange || "", language) }),
@@ -1196,7 +1218,7 @@ function renderAnnualRotationPlan(rec, index, focusedIndex = 0) {
   const risks = toList(rec.risks);
   const score = pick(rec, ["suitabilityScore"]);
   const isFocused = index === focusedIndex;
-  const speechText = buildAnnualPlanSpeechText(rec, index, plan, phases, calendarYear);
+  const speechText = buildAnnualPlanSpeechText(rec, index, plan, phases);
   const focusButton = el("button", {
     type: "button",
     class: "plan-focus",
