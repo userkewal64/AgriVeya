@@ -19,12 +19,12 @@ const LANGUAGE_TEXT = {
     "Plan my season": "मेरो मौसम योजना बनाउनुहोस्", "How it works": "कसरी काम गर्छ", "Climate snapshot": "जलवायु झलक",
     "Average temperature": "औसत तापक्रम", "Average humidity": "औसत आर्द्रता", "Dry days": "सुख्खा दिन", "Historical observations, not a forecast.": "ऐतिहासिक तथ्याङ्क, पूर्वानुमान होइन।",
     "NASA climate measures": "NASA जलवायु मापन", "crops compared": "बालीहरूको तुलना", "ranked rotations": "क्रमबद्ध बाली चक्र", "days of observations by default": "दिनको तथ्याङ्क पूर्वनिर्धारित",
-    "How FieldShift decides": "FieldShift ले कसरी निर्णय गर्छ", "Every score comes from the same simple, open rules. You can see which facts pushed a crop up or down.": "हरेक अङ्क सरल र खुला नियमबाट आउँछ। कुन तथ्यले बालीको स्तर बढायो वा घटायो हेर्न सक्नुहुन्छ।",
+    "How AgriVeya decides": "AgriVeyaले कसरी निर्णय गर्छ", "Every score comes from the same simple, open rules. You can see which facts pushed a crop up or down.": "हरेक अङ्क सरल र खुला नियमबाट आउँछ। कुन तथ्यले बालीको स्तर बढायो वा घटायो हेर्न सक्नुहुन्छ।",
     "NASA climate record": "NASA जलवायु अभिलेख", "Temperature, rainfall, humidity and sunlight for your exact coordinates, taken from NASA POWER.": "तपाईंका निर्देशाङ्कका तापक्रम, वर्षा, आर्द्रता र घामको NASA POWER तथ्याङ्क।",
     "Soil and crop preferences": "माटो र बालीका प्राथमिकता",
     "Your priorities": "तपाईंका प्राथमिकता", "Say how much water saving, climate resilience and soil health matter to you. The ranking shifts with you.": "पानी बचत, जलवायु सहनशीलता र माटोको स्वास्थ्यको महत्त्व छान्नुहोस्। क्रम त्यहीअनुसार बदलिन्छ।",
     "Ranked rotations": "क्रमबद्ध बाली चक्र", "Three annual rotation options to compare, each with timing, risks and a clear score.": "समय, जोखिम र स्पष्ट अङ्कसहित तुलना गर्न तीन वार्षिक बाली चक्र विकल्प।",
-    "Plan your next season": "अर्को मौसमको योजना बनाउनुहोस्", "Enter your farm details. FieldShift fetches the climate record for your coordinates and ranks your options.": "खेतको विवरण भर्नुहोस्। FieldShift ले निर्देशाङ्कअनुसार जलवायु तथ्याङ्क ल्याएर विकल्प क्रमबद्ध गर्छ।",
+    "Plan your next season": "अर्को मौसमको योजना बनाउनुहोस्", "Enter your farm details. AgriVeya fetches the climate record for your coordinates and ranks your options.": "खेतको विवरण भर्नुहोस्। AgriVeya ले निर्देशाङ्कअनुसार जलवायु तथ्याङ्क ल्याएर विकल्प क्रमबद्ध गर्छ।",
     "Farm location": "खेतको स्थान", "Search for a place": "स्थान खोज्नुहोस्", "City, district, or country": "सहर, जिल्ला वा देश",
     "Latitude": "अक्षांश", "Longitude": "देशान्तर", "Use my current location": "मेरो हालको स्थान प्रयोग गर्नुहोस्",
     "Your field": "तपाईंको खेत", "Soil texture": "माटोको बनावट",
@@ -40,11 +40,11 @@ const LANGUAGE_TEXT = {
     "Your rotation options will appear here": "तपाईंका बाली चक्रका विकल्प यहाँ देखिनेछन्",
     "Fill in your farm details and choose": "खेतको विवरण भरेर छान्नुहोस्", "You'll see a climate-screened plan for summer, monsoon and winter, or the best feasible alternative when a season is unsupported.": "गर्मी, मनसुन र हिउँदका लागि जलवायु जाँच गरिएको योजना वा कुनै मौसमका लागि विकल्प नभए उपलब्ध व्यावहारिक योजना देखिनेछ।",
     "Data. Rules.": "तथ्याङ्क। नियम।", "Rotation.": "बाली चक्र।",
-    "FieldShift is built to be checked, not trusted blindly. The same inputs always give the same answer, and every score can be traced back to a reason.": "FieldShift पारदर्शिताका लागि बनाइएको हो। एउटै जानकारीले एउटै नतिजा दिन्छ र हरेक अङ्कको कारण जाँच्न सकिन्छ।",
+    "AgriVeya is built to be checked, not trusted blindly. The same inputs always give the same answer, and every score can be traced back to a reason.": "AgriVeya पारदर्शिताका लागि बनाइएको हो। एउटै जानकारीले एउटै नतिजा दिन्छ र हरेक अङ्कको कारण जाँच्न सकिन्छ।",
     "Historical NASA POWER observations for your coordinates": "तपाईंका निर्देशाङ्कका ऐतिहासिक NASA POWER तथ्याङ्क",
     "A transparent weighted score, with no hidden model": "लुकेको मोडेलबिनाको पारदर्शी भारित अङ्क",
     "Risks listed next to every recommendation": "हरेक सिफारिससँगै जोखिम",
-    "What FieldShift does not do": "FieldShift ले के गर्दैन", "It is not a weather forecast.": "यो मौसम पूर्वानुमान होइन।",
+    "What AgriVeya does not do": "AgriVeya ले के गर्दैन", "It is not a weather forecast.": "यो मौसम पूर्वानुमान होइन।",
     "It shows what the climate did in the past.": "यसले विगतको जलवायु देखाउँछ।", "It does not predict yield.": "यसले उत्पादनको भविष्यवाणी गर्दैन।",
     "Scores rank crops, they do not promise harvests.": "अङ्कले बाली क्रमबद्ध गर्छ, उत्पादनको ग्यारेन्टी गर्दैन।",
     "It does not measure your soil.": "यसले तपाईंको माटो मापन गर्दैन।", "You tell it the soil texture.": "माटोको बनावट तपाईंले दिनुहुन्छ।",
@@ -178,7 +178,7 @@ const LANGUAGE_TEXT = {
     "The available regional crop profiles and seasonal screening did not produce a plan. Review the location and soil details.": "उपलब्ध क्षेत्रीय बाली विवरण र मौसमी जाँचबाट योजना बनेन। स्थान र माटोको विवरण जाँच्नुहोस्।",
     "Your three rotation options for the next season": "अर्को मौसमका लागि तपाईंका तीन बाली चक्र विकल्प",
     "Things to keep in mind": "ध्यान दिनुपर्ने कुरा", "Overall reasons": "समग्र कारणहरू",
-    "How FieldShift scores crops": "FieldShift ले बालीलाई कसरी अङ्क दिन्छ", "Data sources": "तथ्याङ्कका स्रोत",
+    "How AgriVeya scores crops": "AgriVeya ले बालीलाई कसरी अङ्क दिन्छ", "Data sources": "तथ्याङ्कका स्रोत",
     "Raw response (for debugging)": "कच्चा जवाफ (त्रुटि पहिचानका लागि)", "What the climate has done here": "यहाँको जलवायु इतिहास",
     "Total rainfall": "कुल वर्षा", "Average sunlight": "औसत घाम", "NASA POWER observations.": "NASA POWER अवलोकन।",
     "How the score was built": "अङ्क कसरी बन्यो", "Best match": "सबैभन्दा उपयुक्त", "Option": "विकल्प",
@@ -197,12 +197,12 @@ const LANGUAGE_TEXT = {
     "Location search is unavailable. Please try again.": "स्थान खोज्न सकिएन। फेरि प्रयास गर्नुहोस्।",
     "Getting climate data from NASA POWER": "NASA POWER बाट जलवायु तथ्याङ्क ल्याउँदै",
     "This usually takes a few seconds. Your options will appear here.": "यसमा केही सेकेन्ड लाग्छ। तपाईंका विकल्प यहाँ देखिनेछन्।",
-    "Working…": "काम हुँदैछ…", "Can't reach the FieldShift server": "FieldShift सर्भरमा जडान हुन सकेन",
+    "Working…": "काम हुँदैछ…", "Can't reach the AgriVeya server": "AgriVeya सर्भरमा जडान हुन सकेन",
     "Something went wrong on the server": "सर्भरमा समस्या आयो", "Check your details": "विवरण जाँच्नुहोस्",
     "The request took too long": "अनुरोधमा धेरै समय लाग्यो", "NASA climate data is unavailable": "NASA जलवायु तथ्याङ्क उपलब्ध छैन",
     "The server could not use these details": "सर्भरले यी विवरण प्रयोग गर्न सकेन",
     "Location not available": "स्थान उपलब्ध छैन", "Couldn't get your location": "तपाईंको स्थान पत्ता लागेन",
-    "Start the backend to load NASA POWER data. FieldShift never shows made-up climate values.": "NASA POWER तथ्याङ्कका लागि ब्याकएन्ड सुरु गर्नुहोस्। FieldShift ले बनावटी जलवायु तथ्याङ्क देखाउँदैन।",
+    "Start the backend to load NASA POWER data. AgriVeya never shows made-up climate values.": "NASA POWER तथ्याङ्कका लागि ब्याकएन्ड सुरु गर्नुहोस्। AgriVeya ले बनावटी जलवायु तथ्याङ्क देखाउँदैन।",
     "days": "दिन", "climate data unavailable": "जलवायु तथ्याङ्क उपलब्ध छैन",
     "Allow location access in your browser, or enter the coordinates by hand.": "ब्राउजरमा स्थान अनुमति दिनुहोस् वा निर्देशाङ्क आफैँ भर्नुहोस्।",
     "This browser can't share your location. Enter the coordinates by hand.": "यो ब्राउजरले स्थान साझा गर्न सक्दैन। निर्देशाङ्क आफैँ भर्नुहोस्।",
@@ -233,12 +233,12 @@ const LANGUAGE_TEXT = {
     "Plan my season": "मेरे मौसम की योजना बनाएं", "How it works": "यह कैसे काम करता है", "Climate snapshot": "जलवायु झलक",
     "Average temperature": "औसत तापमान", "Average humidity": "औसत आर्द्रता", "Dry days": "सूखे दिन", "Historical observations, not a forecast.": "ऐतिहासिक अवलोकन, पूर्वानुमान नहीं।",
     "NASA climate measures": "NASA जलवायु माप", "crops compared": "फसलों की तुलना", "ranked rotations": "क्रमबद्ध फसल चक्र", "days of observations by default": "दिनों का अवलोकन डिफ़ॉल्ट रूप से",
-    "How FieldShift decides": "FieldShift कैसे निर्णय लेता है", "Every score comes from the same simple, open rules. You can see which facts pushed a crop up or down.": "हर स्कोर सरल और खुले नियमों से आता है। देखें कि किन तथ्यों ने फसल की रैंक बढ़ाई या घटाई।",
+    "How AgriVeya decides": "AgriVeya कैसे निर्णय लेता है", "Every score comes from the same simple, open rules. You can see which facts pushed a crop up or down.": "हर स्कोर सरल और खुले नियमों से आता है। देखें कि किन तथ्यों ने फसल की रैंक बढ़ाई या घटाई।",
     "NASA climate record": "NASA जलवायु रिकॉर्ड", "Temperature, rainfall, humidity and sunlight for your exact coordinates, taken from NASA POWER.": "आपके सटीक निर्देशांकों के तापमान, वर्षा, आर्द्रता और धूप का NASA POWER डेटा।",
     "Soil and crop preferences": "मिट्टी और फसल प्राथमिकताएं",
     "Your priorities": "आपकी प्राथमिकताएं", "Say how much water saving, climate resilience and soil health matter to you. The ranking shifts with you.": "पानी की बचत, जलवायु सहनशीलता और मिट्टी के स्वास्थ्य की प्राथमिकता चुनें। रैंक उसी अनुसार बदलेगी।",
     "Ranked rotations": "क्रमबद्ध फसल चक्र", "Three annual rotation options to compare, each with timing, risks and a clear score.": "समय, जोखिम और स्पष्ट स्कोर के साथ तुलना के लिए तीन वार्षिक फसल चक्र विकल्प।",
-    "Plan your next season": "अगले मौसम की योजना बनाएं", "Enter your farm details. FieldShift fetches the climate record for your coordinates and ranks your options.": "खेत का विवरण भरें। FieldShift आपके निर्देशांकों का जलवायु डेटा लेकर विकल्पों को क्रम देता है।",
+    "Plan your next season": "अगले मौसम की योजना बनाएं", "Enter your farm details. AgriVeya fetches the climate record for your coordinates and ranks your options.": "खेत का विवरण भरें। AgriVeya आपके निर्देशांकों का जलवायु डेटा लेकर विकल्पों को क्रम देता है।",
     "Farm location": "खेत का स्थान", "Search for a place": "स्थान खोजें", "City, district, or country": "शहर, जिला या देश",
     "Latitude": "अक्षांश", "Longitude": "देशांतर", "Use my current location": "मेरी वर्तमान स्थिति का उपयोग करें",
     "Your field": "आपका खेत", "Soil texture": "मिट्टी की बनावट",
@@ -254,11 +254,11 @@ const LANGUAGE_TEXT = {
     "Your rotation options will appear here": "आपके फसल चक्र विकल्प यहां दिखेंगे",
     "Fill in your farm details and choose": "खेत का विवरण भरें और चुनें", "You'll see a climate-screened plan for summer, monsoon and winter, or the best feasible alternative when a season is unsupported.": "गर्मी, मानसून और सर्दी के लिए जलवायु-जांची योजना या किसी मौसम के लिए विकल्प न होने पर सबसे अच्छा उपलब्ध विकल्प दिखेगा।",
     "Data. Rules.": "डेटा। नियम।", "Rotation.": "फसल चक्र।",
-    "FieldShift is built to be checked, not trusted blindly. The same inputs always give the same answer, and every score can be traced back to a reason.": "FieldShift पारदर्शिता के लिए बनाया गया है। समान जानकारी से समान परिणाम मिलता है और हर स्कोर का कारण जांचा जा सकता है।",
+    "AgriVeya is built to be checked, not trusted blindly. The same inputs always give the same answer, and every score can be traced back to a reason.": "AgriVeya पारदर्शिता के लिए बनाया गया है। समान जानकारी से समान परिणाम मिलता है और हर स्कोर का कारण जांचा जा सकता है।",
     "Historical NASA POWER observations for your coordinates": "आपके निर्देशांकों का ऐतिहासिक NASA POWER डेटा",
     "A transparent weighted score, with no hidden model": "बिना छिपे मॉडल के पारदर्शी भारित स्कोर",
     "Risks listed next to every recommendation": "हर सुझाव के साथ जोखिम",
-    "What FieldShift does not do": "FieldShift क्या नहीं करता", "It is not a weather forecast.": "यह मौसम पूर्वानुमान नहीं है।",
+    "What AgriVeya does not do": "AgriVeya क्या नहीं करता", "It is not a weather forecast.": "यह मौसम पूर्वानुमान नहीं है।",
     "It shows what the climate did in the past.": "यह अतीत की जलवायु दिखाता है।", "It does not predict yield.": "यह उपज का पूर्वानुमान नहीं करता।",
     "Scores rank crops, they do not promise harvests.": "स्कोर फसलों को क्रम देते हैं, उपज की गारंटी नहीं।",
     "It does not measure your soil.": "यह आपकी मिट्टी नहीं मापता।", "You tell it the soil texture.": "मिट्टी की बनावट आप बताते हैं।",
@@ -393,7 +393,7 @@ const LANGUAGE_TEXT = {
     "The available regional crop profiles and seasonal screening did not produce a plan. Review the location and soil details.": "उपलब्ध क्षेत्रीय फसल प्रोफाइल और मौसमी जांच से योजना नहीं बनी। स्थान और मिट्टी का विवरण देखें।",
     "Your three rotation options for the next season": "अगले मौसम के लिए आपके तीन फसल चक्र विकल्प",
     "Things to keep in mind": "ध्यान रखने योग्य बातें", "Overall reasons": "समग्र कारण",
-    "How FieldShift scores crops": "FieldShift फसलों को कैसे स्कोर करता है", "Data sources": "डेटा स्रोत",
+    "How AgriVeya scores crops": "AgriVeya फसलों को कैसे स्कोर करता है", "Data sources": "डेटा स्रोत",
     "Raw response (for debugging)": "कच्चा जवाब (डिबगिंग के लिए)", "What the climate has done here": "यहां की जलवायु का इतिहास",
     "Total rainfall": "कुल वर्षा", "Average sunlight": "औसत धूप", "NASA POWER observations.": "NASA POWER अवलोकन।",
     "How the score was built": "स्कोर कैसे बना", "Best match": "सबसे उपयुक्त", "Option": "विकल्प",
@@ -412,12 +412,12 @@ const LANGUAGE_TEXT = {
     "Location search is unavailable. Please try again.": "स्थान खोज उपलब्ध नहीं है। फिर कोशिश करें।",
     "Getting climate data from NASA POWER": "NASA POWER से जलवायु डेटा प्राप्त हो रहा है",
     "This usually takes a few seconds. Your options will appear here.": "इसमें कुछ सेकंड लगते हैं। आपके विकल्प यहां दिखेंगे।",
-    "Working…": "काम हो रहा है…", "Can't reach the FieldShift server": "FieldShift सर्वर से कनेक्ट नहीं हो सका",
+    "Working…": "काम हो रहा है…", "Can't reach the AgriVeya server": "AgriVeya सर्वर से कनेक्ट नहीं हो सका",
     "Something went wrong on the server": "सर्वर में समस्या हुई", "Check your details": "अपना विवरण जांचें",
     "The request took too long": "अनुरोध में बहुत समय लगा", "NASA climate data is unavailable": "NASA जलवायु डेटा उपलब्ध नहीं है",
     "The server could not use these details": "सर्वर इन विवरणों का उपयोग नहीं कर सका",
     "Location not available": "स्थान उपलब्ध नहीं", "Couldn't get your location": "आपकी स्थिति नहीं मिल सकी",
-    "Start the backend to load NASA POWER data. FieldShift never shows made-up climate values.": "NASA POWER डेटा के लिए बैकएंड शुरू करें। FieldShift काल्पनिक जलवायु डेटा नहीं दिखाता।",
+    "Start the backend to load NASA POWER data. AgriVeya never shows made-up climate values.": "NASA POWER डेटा के लिए बैकएंड शुरू करें। AgriVeya काल्पनिक जलवायु डेटा नहीं दिखाता।",
     "days": "दिन", "climate data unavailable": "जलवायु डेटा उपलब्ध नहीं है",
     "Allow location access in your browser, or enter the coordinates by hand.": "ब्राउज़र में स्थान की अनुमति दें या निर्देशांक स्वयं भरें।",
     "This browser can't share your location. Enter the coordinates by hand.": "यह ब्राउज़र स्थान साझा नहीं कर सकता। निर्देशांक स्वयं भरें।",
@@ -1350,7 +1350,7 @@ function renderResults(data, shouldScroll = true) {
   const more = el("section", { class: "glass more" });
   const reasons = toList(data.reasons);
   if (reasons.length) more.append(el("details", {}, el("summary", { text: "Overall reasons" }), bulletList(reasons)));
-  if (data.methodology) more.append(el("details", {}, el("summary", { text: "How FieldShift scores crops" }), renderAny(data.methodology)));
+  if (data.methodology) more.append(el("details", {}, el("summary", { text: "How AgriVeya scores crops" }), renderAny(data.methodology)));
   if (data.dataSources) more.append(el("details", {}, el("summary", { text: "Data sources" }), renderAny(data.dataSources)));
   more.append(el("details", {}, el("summary", { text: "Raw response (for debugging)" }), el("pre", { text: JSON.stringify(data, null, 2) })));
   stack.append(more);
@@ -1476,13 +1476,13 @@ async function handleSubmit(event) {
     if (error.name === "AbortError") {
       showError("The request took too long", "NASA POWER did not answer in time. Wait a moment and try again.");
     } else if (error.status === 502) {
-      showError("NASA climate data is unavailable", error.message, "FieldShift does not guess climate values, so no recommendations are shown. Try again shortly.");
+      showError("NASA climate data is unavailable", error.message, "AgriVeya does not guess climate values, so no recommendations are shown. Try again shortly.");
     } else if (error.status === 400) {
       showError("The server could not use these details", error.message, "Adjust the form and try again.");
     } else if (error.status) {
       showError("Something went wrong on the server", error.message);
     } else {
-      showError("Can't reach the FieldShift server", "Make sure the backend is running (npm start in the Backend folder) and open the app at http://localhost:3000/index.html (the default port).");
+      showError("Can't reach the AgriVeya server", "Make sure the backend is running (npm start in the Backend folder) and open the app at http://localhost:3000/index.html (the default port).");
     }
   } finally {
     button.disabled = false;
@@ -1930,7 +1930,7 @@ async function loadSnapshot() {
   } catch (_) {
     $("snapPeriod").textContent = `${label}, ${translatedText("climate data unavailable")}`;
     ["snapTemp", "snapHum", "snapDry"].forEach((id) => ($(id).textContent = "n/a"));
-    $("snapFoot").textContent = "Start the backend to load NASA POWER data. FieldShift never shows made-up climate values.";
+    $("snapFoot").textContent = "Start the backend to load NASA POWER data. AgriVeya never shows made-up climate values.";
     applyLanguage();
   }
 }
