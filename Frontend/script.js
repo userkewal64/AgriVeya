@@ -568,8 +568,38 @@ const resultsEl = $("results");
   const nav = document.querySelector(".nav");
   const toggle = $("menu-toggle");
   const menu = $("menu");
+  const navLinks = Array.from(menu ? menu.querySelectorAll("a:not(.btn)") : []);
+  const homeLinks = Array.from(document.querySelectorAll('a[href="#top"], .brand'));
 
-  const onScroll = () => nav.classList.toggle("scrolled", window.scrollY > 12);
+  function setActive(activeLink) {
+    navLinks.forEach((link) => {
+      const isCurrent = link === activeLink;
+      link.classList.toggle("active", isCurrent);
+      if (isCurrent) {
+        link.setAttribute("aria-current", "page");
+      } else {
+        link.removeAttribute("aria-current");
+      }
+    });
+  }
+
+  function scrollToTop() {
+    const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    window.scrollTo({ top: 0, left: 0, behavior: prefersReducedMotion ? "auto" : "smooth" });
+    if (location.hash) {
+      history.replaceState(history.state, "", location.pathname + location.search);
+    }
+  }
+
+  const onScroll = () => {
+    nav.classList.toggle("scrolled", window.scrollY > 12);
+    if (window.scrollY < 200) {
+      const homeNavItem = navLinks.find((l) => l.getAttribute("href") === "#top" || l.id === "nav-home");
+      if (homeNavItem && !homeNavItem.classList.contains("active")) {
+        setActive(homeNavItem);
+      }
+    }
+  };
   onScroll();
   window.addEventListener("scroll", onScroll, { passive: true });
 
@@ -578,10 +608,38 @@ const resultsEl = $("results");
     toggle.setAttribute("aria-expanded", String(open));
     toggle.setAttribute("aria-label", open ? "Close menu" : "Open menu");
   }
-  toggle.addEventListener("click", () => setOpen(!nav.classList.contains("open")));
-  menu.addEventListener("click", (e) => { if (e.target.closest("a")) setOpen(false); });
+
+  if (toggle) {
+    toggle.addEventListener("click", () => setOpen(!nav.classList.contains("open")));
+  }
+
+  homeLinks.forEach((link) => {
+    link.addEventListener("click", (e) => {
+      e.preventDefault();
+      setOpen(false);
+      scrollToTop();
+      const homeNavItem = navLinks.find((l) => l.getAttribute("href") === "#top" || l.id === "nav-home");
+      if (homeNavItem) setActive(homeNavItem);
+    });
+  });
+
+  if (menu) {
+    menu.addEventListener("click", (e) => {
+      const anchor = e.target.closest("a");
+      if (!anchor) return;
+      setOpen(false);
+      if (anchor.getAttribute("href") === "#top" || anchor.id === "nav-home") {
+        e.preventDefault();
+        scrollToTop();
+        setActive(anchor);
+      } else if (navLinks.includes(anchor)) {
+        setActive(anchor);
+      }
+    });
+  }
+
   document.addEventListener("keydown", (e) => { if (e.key === "Escape") setOpen(false); });
-  document.addEventListener("click", (e) => { if (!nav.contains(e.target)) setOpen(false); });
+  document.addEventListener("click", (e) => { if (nav && !nav.contains(e.target)) setOpen(false); });
 })();
 
 /* ---------- Build the form controls from CONFIG ---------- */

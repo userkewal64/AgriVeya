@@ -188,9 +188,15 @@ svg { display: block; }
 .menu a:not(.btn)::after { content: ""; position: absolute; left: 0; right: 0; bottom: -2px; height: 2px; background: var(--lime); transform: scaleX(0); transform-origin: left; transition: transform .25s ease; }
 .menu a:not(.btn):hover { color: #fff; }
 .menu a:not(.btn):hover::after { transform: scaleX(1); }
+.menu a:not(.btn).active,
+.menu a:not(.btn)[aria-current="page"] { color: #fff; }
+.menu a:not(.btn).active::after,
+.menu a:not(.btn)[aria-current="page"]::after { transform: scaleX(1); }
 
 [data-theme="light"] .menu a:not(.btn) { color: var(--text); font-weight: 600; }
 [data-theme="light"] .menu a:not(.btn):hover { color: var(--lime); }
+[data-theme="light"] .menu a:not(.btn).active,
+[data-theme="light"] .menu a:not(.btn)[aria-current="page"] { color: var(--lime-strong); font-weight: 700; }
 
 .menu-toggle { display: none; width: 44px; height: 44px; border-radius: 12px; border: 1px solid var(--line); background: rgba(255,255,255,.05); color: var(--text); cursor: pointer; align-items: center; justify-content: center; }
 .menu-toggle svg { width: 22px; height: 22px; }
