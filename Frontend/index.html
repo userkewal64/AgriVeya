@@ -1,13 +1,14 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" data-theme="light">
 <head>
-  <meta name="description" content="Agrivia is a smart crop rotation planning tool.">
-  <link rel="icon" href="favicon.ico" sizes="any">
-  <link rel="icon" href="favicon-64.png" type="image/png" sizes="64x64">
-  <meta name="theme-color" content="#ffffff">
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#06100b">
+  <meta name="description" content="AgriVeya is a smart crop rotation planner that compares climate observations, soil texture, and farm priorities to rank practical seasonal crop rotations.">
+  <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#06100b" media="(prefers-color-scheme: dark)">
+  <link rel="icon" href="favicon.ico" sizes="any">
+  <link rel="icon" href="icon-light.png" type="image/png" media="(prefers-color-scheme: light)">
+  <link rel="icon" href="icon-dark.png" type="image/png" media="(prefers-color-scheme: dark)">
   <script>
     if ("scrollRestoration" in history) history.scrollRestoration = "manual";
     if (location.hash) {
@@ -79,8 +80,9 @@
   <header class="nav" id="top">
     <div class="nav-inner">
       <a class="brand" href="#top" aria-label="AgriVeya home">
-        <svg class="brand-mark" viewBox="0 0 32 32" aria-hidden="true"><path d="M16 29V15M16 15C16 9 11 5 4 5c0 7 4 10 12 10ZM16 19c0-5 4-8 11-8 0 6-3 9-11 9Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        <span class="brand-text"><b>AgriVeya</b><small>Smart Crop Rotation</small></span>
+        <img class="brand-logo logo-light" src="agrivia-logo-light.png" alt="Agrivia logo" width="143" height="34">
+        <img class="brand-logo logo-dark" src="agrivia-logo-dark.png" alt="Agrivia logo" width="143" height="34">
+        <span class="brand-text"><small>Smart Crop Rotation</small></span>
       </a>
       <nav class="menu" id="menu" aria-label="Main navigation">
         <a href="#top">Home</a>
@@ -255,19 +257,34 @@
 
   <!-- ===== About the data ===== -->
   <section class="section data-section" id="data">
-    <div class="data-head">
-      <h2>Data. Rules.<br>Rotation.</h2>
+    <div class="section-head">
+      <div>
+        <h2>Data. Rules.<br>Rotation.</h2>
+      </div>
+      <p>A transparent weighted score, with no hidden model</p>
     </div>
-    <div class="data-method">
-      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h10M18 7h2M4 17h2M10 17h10M4 12h4M12 12h8" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><circle cx="16" cy="7" r="2" fill="none" stroke="currentColor" stroke-width="1.8"/><circle cx="8" cy="17" r="2" fill="none" stroke="currentColor" stroke-width="1.8"/><circle cx="10" cy="12" r="2" fill="none" stroke="currentColor" stroke-width="1.8"/></svg>
-      <span>A transparent weighted score, with no hidden model</span>
+    <div class="cards4 data-cards">
+      <article class="card glass">
+        <div class="icon"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M12 7v5l3 3" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></div>
+        <h3>Historical climate</h3>
+        <p>Historical observations, not a forecast.</p>
+      </article>
+      <article class="card glass">
+        <div class="icon icon-sky"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17l10-10M17 17V7H7" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <h3>Crop suitability</h3>
+        <p>It does not predict yield.</p>
+      </article>
+      <article class="card glass">
+        <div class="icon icon-earth"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="7" fill="none" stroke="currentColor" stroke-width="1.8"/><circle cx="12" cy="12" r="2" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></div>
+        <h3>Soil texture</h3>
+        <p>You tell it the soil texture.</p>
+      </article>
+      <article class="card glass">
+        <div class="icon icon-sun"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 13l4 4L19 7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <h3>Local guidance</h3>
+        <p>They are illustrative, so confirm with local advice before planting.</p>
+      </article>
     </div>
-    <ul class="data-caveats">
-      <li><span aria-hidden="true">◷</span><span>Historical observations, not a forecast.</span></li>
-      <li><span aria-hidden="true">↗</span><span>It does not predict yield.</span></li>
-      <li><span aria-hidden="true">⌖</span><span>You tell it the soil texture.</span></li>
-      <li><span aria-hidden="true">✓</span><span>They are illustrative, so confirm with local advice before planting.</span></li>
-    </ul>
   </section>
 
   <!-- ===== Closing banner ===== -->
